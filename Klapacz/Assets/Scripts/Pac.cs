@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Pac : MonoBehaviour {
 
     private Rigidbody2D PacBody;
     private Vector2 PacVer;
     private GameObject ColideBox;
+    private GameObject Maw;
+    private GameObject PacMan;    
 
     private bool isColideDOWN;
     private bool isColideUP;
@@ -17,12 +20,23 @@ public class Pac : MonoBehaviour {
     private Transform UpColisionCheck;
     private Transform LeftColisionCheck;
     private Transform RightColisionCheck;
+    private Transform PacColisionCheck;
+    private Transform MawColisionCheck;
 
     private Vector2 BoxSize;
+    private Vector2 MawSize;
     private LayerMask Walls;
+    private LayerMask Coins;
+    private int CountCoin;
+
+    private float PacRadiusColisionCircle;
+    Collider2D ColideCoin;
+
 
     void Start()
     {
+        PacMan = GameObject.Find("Pac");
+        Maw = GameObject.Find("maw");
         PacBody = GetComponent<Rigidbody2D>();
         PacVer = new Vector2(1,0);
 
@@ -33,6 +47,7 @@ public class Pac : MonoBehaviour {
 
         BoxSize = new Vector2(0.03f, 0.03f);
         Walls = LayerMask.GetMask("walls");
+        Coins = LayerMask.GetMask("Coins");
         ColideBox = GameObject.Find("down");
         DownColisionCheck = ColideBox.transform;
         ColideBox = GameObject.Find("up");
@@ -41,6 +56,14 @@ public class Pac : MonoBehaviour {
         LeftColisionCheck = ColideBox.transform;
         ColideBox = GameObject.Find("right");
         RightColisionCheck = ColideBox.transform;
+
+        MawSize = new Vector2(0.07504337f, 0.09125525f);
+        MawColisionCheck = Maw.transform;
+
+        CountCoin = 0;
+
+        PacColisionCheck = PacMan.transform;
+        PacRadiusColisionCircle = 0.07051769f;
     }
     
     void Update ()
@@ -66,7 +89,10 @@ public class Pac : MonoBehaviour {
             PacVer.y = -0.65f;
             PacVer.x = 0;
         }
-        
+        if(CountCoin==168)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        }
 
 
     }
@@ -90,32 +116,19 @@ public class Pac : MonoBehaviour {
         //D key block
         if (Physics2D.OverlapBox(RightColisionCheck.position, BoxSize, 0, Walls)) isColideRIGHT = true;
         else isColideRIGHT = false;
+
+        if ( ColideCoin=Physics2D.OverlapBox(MawColisionCheck.position, MawSize, 0, Coins))
+        {
+                Destroy(ColideCoin.gameObject);
+                CountCoin++;
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            PacVer.x = -1;
-            PacVer.y = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            PacVer.x = 1;
-            PacVer.y = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            PacVer.y = 1;
-            PacVer.x = 0;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            PacVer.y = -1;
-            PacVer.x = 0;
-        }
-        */
+
+
+
     }
 
 
