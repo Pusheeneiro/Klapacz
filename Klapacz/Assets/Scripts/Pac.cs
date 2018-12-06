@@ -42,6 +42,7 @@ public class Pac : MonoBehaviour {
 
     public Animator animator;
 
+
     private void Awake()
     {
         PacMan = GameObject.Find("Pac");
