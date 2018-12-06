@@ -32,6 +32,7 @@ public class Pac : MonoBehaviour {
     private float PacRadiusColisionCircle;
     Collider2D ColideCoin;
 
+    public Animator animator;
 
     void Start()
     {
@@ -73,21 +74,37 @@ public class Pac : MonoBehaviour {
         {
             PacVer.x = -0.65f;
             PacVer.y = 0;
+            animator.SetBool("Left", true);
+            animator.SetBool("Right", false);
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", false);
         }
         if (Input.GetKeyDown(KeyCode.D) && !isColideRIGHT)
         {
             PacVer.x = 0.65f;
             PacVer.y = 0;
+            animator.SetBool("Right", true);
+            animator.SetBool("Left", false);
+            animator.SetBool("Up", false);
+            animator.SetBool("Down", false);
         }
         if (Input.GetKeyDown(KeyCode.W) && !isColideUP)
         {
             PacVer.y = 0.65f;
             PacVer.x = 0;
+            animator.SetBool("Up", true);
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
+            animator.SetBool("Down", false);
         }
         if (Input.GetKeyDown(KeyCode.S) && !isColideDOWN)
         {
             PacVer.y = -0.65f;
             PacVer.x = 0;
+            animator.SetBool("Down", true);
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
+            animator.SetBool("Up", false);
         }
         if(CountCoin==168)
         {
