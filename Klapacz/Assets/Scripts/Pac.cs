@@ -41,8 +41,7 @@ public class Pac : MonoBehaviour {
 
 
     public Animator animator;
-
-    void Start()
+    
 
     private void Awake()
 
