@@ -42,6 +42,13 @@ public class Pac : MonoBehaviour {
 
     public Animator animator;
 
+    //next lvl timer
+    IEnumerator Example()
+    {
+        yield return new WaitForSeconds(2);
+        Global.Level = Global.Level + 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
     private void Awake()
     {
@@ -143,10 +150,13 @@ public class Pac : MonoBehaviour {
         }
 
         //Next Lvl
-        if(CountCoin==168)
+        if(CountCoin==162)
         {
-            Global.Level = Global.Level+1;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Animator Blank;
+            Blank = GameObject.Find("blank").GetComponent<Animator>();
+            Blank.SetBool("isend", true);
+
+            StartCoroutine(Example());
         }
 
     }
