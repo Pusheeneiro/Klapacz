@@ -20,6 +20,7 @@ public class Pac : MonoBehaviour {
     private bool isColideUP;
     private bool isColideLEFT;
     private bool isColideRIGHT;
+    private Animator Blank;
 
     private Transform DownColisionCheck;
     private Transform UpColisionCheck;
@@ -46,7 +47,6 @@ public class Pac : MonoBehaviour {
     IEnumerator Example()
     {
         yield return new WaitForSeconds(2);
-        Global.Level = Global.Level + 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -55,7 +55,7 @@ public class Pac : MonoBehaviour {
         PacMan = GameObject.Find("Pac");
         Maw = GameObject.Find("maw");
         PacBody = GetComponent<Rigidbody2D>();
-        PacVer = new Vector2(1, 0);
+        PacVer = new Vector2(0.5f, 0);
 
         isColideDOWN = false;
         isColideUP = false;
@@ -89,6 +89,10 @@ public class Pac : MonoBehaviour {
         LevelIconBase = GameObject.Find("1");
         ScoreCount = GameObject.Find("ScoreCount");
         ScoreCount.GetComponent<TextMesh>().text = Global.Score.ToString();
+
+        
+        Blank = GameObject.Find("blank").GetComponent<Animator>();
+        
 
 
         for (int i=1; i < Global.Level;i++)
@@ -150,12 +154,10 @@ public class Pac : MonoBehaviour {
         }
 
         //Next Lvl
-        if(CountCoin==162)
+        if(CountCoin==168)
         {
-            Animator Blank;
-            Blank = GameObject.Find("blank").GetComponent<Animator>();
+            Global.Level = Global.Level + 1;
             Blank.SetBool("isend", true);
-
             StartCoroutine(Example());
         }
 
@@ -209,6 +211,12 @@ public class Pac : MonoBehaviour {
         if (other.gameObject.name == "RightTeleport")
         {
             PacMan.transform.position = LeftTeleport.transform.position + new Vector3(0.3f,0,0);
+        }
+        if (other.gameObject.name == "ghost_0" || other.gameObject.name == "ghost_0 (1)" || other.gameObject.name == "ghost_0 (2)" || other.gameObject.name == "ghost_0 (3)")
+        {
+            Global.Level = 1;
+            Blank.SetBool("isend", true);
+            StartCoroutine(Example());
         }
     }
 
